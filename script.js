@@ -48,5 +48,69 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Timet
+
+    // задаем конечную дату
+    let deadlain = '2020-08-12';
+
+    // находим разницу между конечной датой и настоящей датой
+    function getTimeRemaining(endTime) {
+        let t = Date.parse(endTime) - Date.parse(new Date()),
+            seconds = ((t/1000) % 60).toFixed(),
+            minutes = Math.floor(((t/1000/60) % 60)),
+            hours = ((t/1000/60/60) % 24).toFixed(),
+            days = (t/1000/60/60/24).toFixed();
+
+            return {
+                'total' : t,
+                'hours' : hours,
+                'minutes' : minutes,
+                'seconds' : seconds,
+                'days' : days
+            };
+
+    }
+
+    //
+
+    function setClock(id, endTime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            days = timer.querySelector('.days'),
+            timeInterval = setInterval(updateClock, 1000);
+
+        function updateClock() {
+            let t = getTimeRemaining(endTime);
+
+            if (seconds.textContent === '11' && minutes.textContent === '20' && hours.textContent === '18') {
+                hours.textContent = t.hours;
+                minutes.textContent = t.minutes;
+                seconds.textContent = t.seconds;
+            } else {
+                seconds.textContent = t.seconds;
+                if (seconds.textContent.length != 2) {
+                    seconds.textContent = '0' + t.seconds;
+                } else if (seconds.textContent === '59') {
+                    minutes.textContent = t.minutes; 
+                }
+                if (minutes.textContent.length != 2) {
+                    minutes.textContent = '0' + t.minutes;
+                } else if (minutes.textContent === '59') {
+                    hours.textContent = t.hours;
+                }
+                if (hours.textContent.length != 2) {
+                    hours.textContent = '0' + t.hours;
+                }
+            }
+        }
+    }
+
+    setClock('timer', deadlain);
+
+
+
+
 
 });
